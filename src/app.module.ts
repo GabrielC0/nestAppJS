@@ -9,6 +9,8 @@ import { User } from './auth/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
+import { TmdbModule } from './tmdb/tmdb.module';
+
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -39,6 +41,7 @@ dotenv.config();
       inject: [ConfigService],
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
+    TmdbModule,
   ],
   controllers: [AppController, AuthController],
   providers: [AppService, AuthService, JwtStrategy],
