@@ -13,6 +13,8 @@ import { TmdbModule } from './tmdb/tmdb.module';
 
 import * as dotenv from 'dotenv';
 
+import { ReservationModule } from './reservation/reservation.module';
+
 dotenv.config();
 
 @Module({
@@ -42,6 +44,7 @@ dotenv.config();
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     TmdbModule,
+    ReservationModule,
   ],
   controllers: [AppController, AuthController],
   providers: [AppService, AuthService, JwtStrategy],

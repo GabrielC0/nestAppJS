@@ -13,7 +13,7 @@ export class LoginDto {
     description: "User's password",
     example: 'Password123',
   })
-  @IsString()
+  @IsString({ message: 'Le mot de passe doit être une chaîne de caractères' })
   @MinLength(6, {
     message: 'Le mot de passe doit contenir au moins 6 caractères',
   })
