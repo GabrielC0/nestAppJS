@@ -22,7 +22,6 @@ export class AuthController {
   async register(@Body() registerDto: RegisterDto) {
     try {
       const response = await this.authService.register(registerDto);
-
       return {
         message: 'Utilisateur créé avec succès',
         user: response.user,
@@ -41,7 +40,6 @@ export class AuthController {
   async login(@Body() loginDto: LoginDto) {
     try {
       const response = await this.authService.login(loginDto);
-
       return {
         message: 'Connexion réussie',
         user: response.user,
