@@ -10,10 +10,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { TmdbModule } from './tmdb/tmdb.module';
+import { ReservationModule } from './reservation/reservation.module';
+import { Reservation } from './reservation/entities/reservation.entity';
 
 import * as dotenv from 'dotenv';
-
-import { ReservationModule } from './reservation/reservation.module';
 
 dotenv.config();
 
@@ -30,7 +30,7 @@ dotenv.config();
       username: 'myuser',
       password: 'mypassword',
       database: 'mydatabase',
-      entities: [User],
+      entities: [User, Reservation],
       synchronize: true,
     }),
     TypeOrmModule.forFeature([User]),

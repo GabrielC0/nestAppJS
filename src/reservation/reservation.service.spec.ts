@@ -10,7 +10,6 @@ describe('ReservationService', () => {
   let service: ReservationService;
   let reservationRepository: Repository<Reservation>;
 
-  // Mock de l'entity Reservation
   const mockReservationRepository = {
     findOne: jest.fn(),
     find: jest.fn(),
@@ -47,17 +46,16 @@ describe('ReservationService', () => {
   describe('createReservation', () => {
     it('should throw a ConflictException if a reservation already exists at the same time', async () => {
       const createReservationDto: CreateReservationDto = {
-        userId: 'user1',
-        movieId: 'movie1',
+        userId: '7ca97fe2-4b7f-4557-ba9d-4946fd63c395',
+        movieId: 550,
         startTime: '2025-02-05T14:00:00Z',
       };
 
-      // Simuler une réservation existante
       mockReservationRepository.findOne.mockResolvedValueOnce({
         id: 'reservation1',
-        userId: 'user1',
-        startTime: new Date('2025-02-05T14:00:00Z'),
-        endTime: new Date('2025-02-05T16:00:00Z'),
+        userId: '7ca97fe2-4b7f-4557-ba9d-4946fd63c395',
+        startTime: '2025-02-05T14:00:00Z',
+        endTime: '2025-02-05T16:00:00Z',
       });
 
       await expect(
@@ -71,14 +69,18 @@ describe('ReservationService', () => {
 
     it('should create a reservation successfully', async () => {
       const createReservationDto: CreateReservationDto = {
-        userId: 'user1',
-        movieId: 'movie1',
+        userId: '7ca97fe2-4b7f-4557-ba9d-4946fd63c395',
+        movieId: 550,
         startTime: '2025-02-05T14:00:00Z',
       };
 
+      const startDate = new Date(createReservationDto.startTime);
+      const endDate = new Date(startDate.getTime() + 2 * 60 * 60 * 1000);
+
       const newReservation = {
         ...createReservationDto,
-        endTime: new Date('2025-02-05T16:00:00Z'),
+        startTime: startDate,
+        endTime: endDate,
       };
 
       mockReservationRepository.create.mockReturnValue(newReservation);
@@ -88,7 +90,11 @@ describe('ReservationService', () => {
 
       expect(result).toEqual(newReservation);
       expect(mockReservationRepository.create).toHaveBeenCalledWith(
-        createReservationDto,
+        expect.objectContaining({
+          ...createReservationDto,
+          startTime: expect.any(Date),
+          endTime: expect.any(Date),
+        }),
       );
       expect(mockReservationRepository.save).toHaveBeenCalledWith(
         newReservation,
@@ -98,13 +104,13 @@ describe('ReservationService', () => {
 
   describe('getUserReservations', () => {
     it('should return an array of reservations', async () => {
-      const userId = 'user1';
+      const userId = '7ca97fe2-4b7f-4557-ba9d-4946fd63c395';
       const reservations = [
         {
           userId,
-          movieId: 'movie1',
-          startTime: new Date('2025-02-05T14:00:00Z'),
-          endTime: new Date('2025-02-05T16:00:00Z'),
+          movieId: 550,
+          startTime: '2025-02-05T14:00:00Z',
+          endTime: '2025-02-05T16:00:00Z',
         },
       ];
 
@@ -133,10 +139,10 @@ describe('ReservationService', () => {
       const reservationId = 'reservation1';
       const reservation = {
         id: reservationId,
-        userId: 'user1',
-        movieId: 'movie1',
-        startTime: new Date('2025-02-05T14:00:00Z'),
-        endTime: new Date('2025-02-05T16:00:00Z'),
+        userId: '7ca97fe2-4b7f-4557-ba9d-4946fd63c395',
+        movieId: 550,
+        startTime: '2025-02-05T14:00:00Z',
+        endTime: '2025-02-05T16:00:00Z',
       };
 
       mockReservationRepository.findOne.mockResolvedValue(reservation);

@@ -2,6 +2,7 @@ import {
   Injectable,
   ConflictException,
   NotFoundException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { Reservation } from './entities/reservation.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -21,8 +22,7 @@ export class ReservationService {
   ): Promise<Reservation> {
     const { userId, movieId, startTime } = createReservationDto;
     const startDate = new Date(startTime);
-    const endDate = new Date(startDate);
-    endDate.setHours(endDate.getHours() + 2);
+    const endDate = new Date(startDate.getTime() + 2 * 60 * 60 * 1000);
 
     const conflictingReservation = await this.reservationRepository.findOne({
       where: [
@@ -41,13 +41,18 @@ export class ReservationService {
     }
 
     const reservation = this.reservationRepository.create({
-      userId,
-      movieId,
+      ...createReservationDto,
       startTime: startDate,
       endTime: endDate,
     });
 
-    return this.reservationRepository.save(reservation);
+    try {
+      const result = await this.reservationRepository.save(reservation);
+      return result;
+    } catch (error) {
+      console.error('Error creating reservation:', error);
+      throw new InternalServerErrorException('Une erreur interne est survenue');
+    }
   }
 
   async getUserReservations(userId: string): Promise<Reservation[]> {

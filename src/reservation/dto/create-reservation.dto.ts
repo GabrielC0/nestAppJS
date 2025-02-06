@@ -1,14 +1,17 @@
-import { IsString, IsDateString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateReservationDto {
   @IsString({ message: "L'ID utilisateur doit être une chaîne de caractères" })
   @IsNotEmpty({ message: "L'ID utilisateur est requis" })
   userId: string;
 
-  @IsString({ message: "L'ID du film doit être une chaîne de caractères" })
+  @IsNumber({}, { message: "L'ID du film doit être un nombre" })
   @IsNotEmpty({ message: "L'ID du film est requis" })
-  movieId: string;
+  movieId: number;
 
-  @IsDateString({}, { message: "L'heure de début doit être une date valide" })
+  @IsString({
+    message:
+      "L'heure de début doit être une chaîne de caractères représentant une date",
+  })
   startTime: string;
 }

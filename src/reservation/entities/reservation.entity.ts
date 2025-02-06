@@ -5,15 +5,15 @@ export class Reservation {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'uuid' })
   userId: string;
 
-  @Column()
-  movieId: string;
+  @Column({ type: 'int' })
+  movieId: number;
 
-  @Column()
+  @Column({ type: 'timestamptz' })
   startTime: Date;
 
-  @Column()
+  @Column({ type: 'timestamptz' })
   endTime: Date;
 }

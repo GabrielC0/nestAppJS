@@ -43,7 +43,7 @@ export class AuthService {
       where: { email: loginDto.email },
     });
 
-    if (!user || (await bcrypt.compare(loginDto.password, user.password))) {
+    if (!user || !(await bcrypt.compare(loginDto.password, user.password))) {
       throw new UnauthorizedException('Email ou mot de passe incorrect');
     }
 
