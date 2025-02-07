@@ -1,0 +1,10 @@
+.catalogue-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #282c34;
+  color: white;
+}

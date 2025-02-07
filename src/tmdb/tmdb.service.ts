@@ -29,4 +29,14 @@ export class TmdbService {
     );
     return response.data.results;
   }
+
+  async getMovies(query: string) {
+    const apiKey = this.configService.getTmdbApiKey();
+    const response = await lastValueFrom(
+      this.httpService.get('https://api.themoviedb.org/3/discover/movie', {
+        params: { api_key: apiKey, query },
+      }),
+    );
+    return response.data.results;
+  }
 }

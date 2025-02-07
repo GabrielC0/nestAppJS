@@ -32,6 +32,17 @@ export class MoviesService {
     return response.data.results;
   }
 
+  async getMovie(query: string, page: number) {
+    const apiKey = this.configService.getTmdbApiKey();
+    const apiUrl = this.configService.getTmdbApiUrl();
+    const response = await lastValueFrom(
+      this.httpService.get(`${apiUrl}/discover/movie`, {
+        params: { api_key: apiKey, query, page },
+      }),
+    );
+    return response.data.results;
+  }
+
   async getMovieDetails(movieId: number) {
     const apiKey = this.configService.getTmdbApiKey();
     const apiUrl = this.configService.getTmdbApiUrl();

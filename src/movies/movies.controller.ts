@@ -22,6 +22,15 @@ export class MoviesController {
     return this.moviesService.searchMovies(query, page);
   }
 
+  @Get('getMovies')
+  @ApiOperation({ summary: 'Get Movies' })
+  async getMovies(
+    @Query('query') query: string,
+    @Query('page') page: number = 1,
+  ) {
+    return this.moviesService.getMovie(query, page);
+  }
+
   @Get(':movieId')
   @ApiOperation({ summary: 'Get movie details' })
   async getMovieDetails(@Query('movieId') movieId: number) {
