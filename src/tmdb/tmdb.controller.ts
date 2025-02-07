@@ -18,4 +18,10 @@ export class TmdbController {
   async searchMovies(@Query('query') query: string) {
     return this.tmdbService.searchMovies(query);
   }
+
+  @Get('getMovies')
+  @ApiOperation({ summary: 'get movies' })
+  async getMovies(@Query('query') query: string) {
+    return this.tmdbService.getMovies(query);
+  }
 }
