@@ -46,9 +46,6 @@ dotenv.config();
     PassportModule.register({ defaultStrategy: 'jwt' }),
     TmdbModule,
     ReservationModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'my-frontend', 'build'),
-    }),
   ],
   controllers: [AppController, AuthController],
   providers: [AppService, AuthService, JwtStrategy],
