@@ -1,9 +1,9 @@
-// import Home from './pages/Home';
+import Home from './pages/Home.tsx';
 
 import './App.css';
 
 function App() {
-  return 'Hello';
+  return <Home />;
 }
 
 export default App;
