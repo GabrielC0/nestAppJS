@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '../config/config.service';
-import { lastValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class TmdbService {
@@ -32,9 +32,9 @@ export class TmdbService {
 
   async getMovies(query: string) {
     const apiKey = this.configService.getTmdbApiKey();
-    const response = await lastValueFrom(
+    const response = await firstValueFrom(
       this.httpService.get('https://api.themoviedb.org/3/discover/movie', {
-        params: { api_key: apiKey, query },
+        params: { api_key: apiKey, query, page: 1 },
       }),
     );
     return response.data.results;
